@@ -1,14 +1,14 @@
 package com.xingwenke.www.po;
 
-public class grade {
+public class Grade {
 
     private Integer gradeId;
     private String gradeName;
 
-    public grade() {
+    public Grade() {
     }
 
-    public grade(Integer gradeId, String gradeName) {
+    public Grade(Integer gradeId, String gradeName) {
         this.gradeId = gradeId;
         this.gradeName = gradeName;
     }

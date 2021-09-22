@@ -1,6 +1,6 @@
 package com.xingwenke.www.po;
 
-public class student {
+public class Student {
     private Integer studentId;
     private String studentName;
     private String studentPwd;
@@ -8,10 +8,10 @@ public class student {
     private Integer gradeId;
     private Integer classId;
 
-    public student() {
+    public Student() {
     }
 
-    public student(Integer studentId, String studentName, String studentPwd, Integer majorId, Integer gradeId, Integer classId) {
+    public Student(Integer studentId, String studentName, String studentPwd, Integer majorId, Integer gradeId, Integer classId) {
 
         this.studentId = studentId;
         this.studentName = studentName;

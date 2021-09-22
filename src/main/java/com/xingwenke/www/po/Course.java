@@ -2,7 +2,7 @@ package com.xingwenke.www.po;
 
 import java.util.Date;
 
-public class course {
+public class Course {
     private Integer courseId;
     private String courseName;
     private Integer gradeId;
@@ -12,10 +12,10 @@ public class course {
     private Date finishTime;
     private Integer stuNum;
 
-    public course() {
+    public Course() {
     }
 
-    public course(Integer courseId, String courseName, Integer gradeId, Integer teacherId, Integer studentId, Date startTime, Date finishTime, Integer stuNum) {
+    public Course(Integer courseId, String courseName, Integer gradeId, Integer teacherId, Integer studentId, Date startTime, Date finishTime, Integer stuNum) {
 
         this.courseId = courseId;
         this.courseName = courseName;

@@ -30,6 +30,7 @@ public class BaseDao {
         password = properties.getProperty("password");
     }
 
+
     // 获取数据库的连接
     public static Connection getConnection()  {
         Connection connection = null;
@@ -43,6 +44,7 @@ public class BaseDao {
         }
         return connection;
     }
+
 
     // 编写查询公共类 查询的结果集resultSet
     public static ResultSet execute(Connection concection, String sql, Object[] params, ResultSet resultSet, PreparedStatement preparedStatement) throws SQLException {
@@ -58,6 +60,7 @@ public class BaseDao {
         return resultSet;
     }
 
+
     // 增、删、改 公共方法
     public static int execute(Connection connection, String sql, Object[] params, PreparedStatement preparedStatement) throws Exception{
         preparedStatement = getConnection().prepareStatement(sql);
@@ -69,6 +72,7 @@ public class BaseDao {
         int updateRows = preparedStatement.executeUpdate();
         return updateRows;
     }
+
 
     // 释放资源
     public static boolean closeResource(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet){

@@ -1,15 +1,15 @@
 package com.xingwenke.www.po;
 
-public class teacher {
+public class Teacher {
     private Integer teacherId;
     private String teacherName;
     private String teacherPwd;
     private Integer majorId;
 
-    public teacher() {
+    public Teacher() {
     }
 
-    public teacher(Integer teacherId, String teacherName, String teacherPwd, Integer majorId) {
+    public Teacher(Integer teacherId, String teacherName, String teacherPwd, Integer majorId) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
         this.teacherPwd = teacherPwd;

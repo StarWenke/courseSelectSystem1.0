@@ -1,14 +1,14 @@
 package com.xingwenke.www.po;
 
-public class major {
+public class Major {
 
     private Integer majorId;
     private String majorName;
 
-    public major() {
+    public Major() {
     }
 
-    public major(Integer majorId, String majorName) {
+    public Major(Integer majorId, String majorName) {
         this.majorId = majorId;
         this.majorName = majorName;
     }

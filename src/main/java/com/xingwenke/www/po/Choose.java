@@ -1,13 +1,13 @@
 package com.xingwenke.www.po;
 
-public class choose {
+public class Choose {
     private Integer studentId;
     private Integer courseId;
 
-    public choose() {
+    public Choose() {
     }
 
-    public choose(Integer studentId, Integer courseId) {
+    public Choose(Integer studentId, Integer courseId) {
         this.studentId = studentId;
         this.courseId = courseId;
     }

@@ -1,14 +1,14 @@
 package com.xingwenke.www.po;
 
-public class classs {
+public class Classs {
 
     private Integer classId;
     private String className;
 
-    public classs() {
+    public Classs() {
     }
 
-    public classs(Integer classId, String className) {
+    public Classs(Integer classId, String className) {
         this.classId = classId;
         this.className = className;
     }
