@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑课程</title>
+    <link type="text/css" rel="stylesheet" href="../css/Style.css">
+    <style type="text/css">
+        h1{
+            text-align: center;
+            margin-top: 200px;
+        }
+
+        h1 a{
+            color: red;
+        }
+
+        input{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img class="logo_img" alt="" src="../img/logo.gif">
+        <span class="wel_word">编辑选课</span>
+        <div>
+            <a href="course_manager.html">课程管理</a>
+            <a href="select_manager.html">选课管理</a>
+            <a href="../index.html">返回选课列表</a>
+        </div>
+    </div>
+
+    <div id="main">
+        <form action="course_manager.html">
+            <table>
+                <tr>
+                    <td>课程名称</td>
+                    <td>任课老师</td>
+                    <td>最多人数</td>
+                    <td>剩余人数</td>
+                    <td colspan="2">操作</td>
+                </tr>
+                <tr>
+                    <td><input name="course_name" type="text" value="岭南建筑"> </td>
+                    <td><input name="teacher_name" type="text" value="认课老师"> </td>
+                    <td><input name="course_num" type="text" value="最多人数"> </td>
+                    <td><input name="stu_num" type="text" value="已选学生人数"> </td>
+                    <td><input type="submit" value="提交"> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div id="bottom">
+        <span>
+            天空之城选课系统-2021
+        </span>
+    </div>
+</body>
+</html>

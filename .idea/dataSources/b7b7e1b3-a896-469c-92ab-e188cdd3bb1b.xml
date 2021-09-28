@@ -782,7 +782,7 @@
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="245" parent="237" name="cousrse_id">
+    <column id="245" parent="237" name="course_id">
       <Position>2</Position>
       <Comment>课程id</Comment>
       <DataType>int(11)|0s</DataType>
