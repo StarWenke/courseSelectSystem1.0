@@ -1,109 +1,85 @@
 package com.xingwenke.www.dao;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Properties;
+import com.xingwenke.www.utils.JdbcUtils;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-// 操作数据库的公共类
-public class BaseDao {
-    private static String driver;
-    private static String url;
-    private static String username;
-    private static String password;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
-    // 静态代码块，类加载的时候就初始化了
-    static{
-        Properties properties = new Properties();
-        // 通过类加载器读取对应的资源
-        InputStream is = BaseDao.class.getClassLoader().getResourceAsStream("db.properties");
+public abstract class BaseDao {
 
-        try {
-            properties.load(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // 使用DbUtils操作数据库
+    // update方法用来执行：insert、update、delete语句
+    private final QueryRunner queryRunner = new QueryRunner();
 
-        driver = properties.getProperty("driver");
-        url = properties.getProperty("url");
-        username = properties.getProperty("username");
-        password = properties.getProperty("password");
-    }
-
-
-    // 获取数据库的连接
-    public static Connection getConnection()  {
-        Connection connection = null;
+    // 因为我们不知道要执行哪一个sql，所以要传入sql
+    public int update(String sql, Object ... args){
+        Connection connection = JdbcUtils.getConnection();
 
         try {
-            //得到数据库的连接对象
-            Class.forName(driver);
-            connection = DriverManager.getConnection(url,username,password);
-        } catch (Exception e) {
+            return queryRunner.update(connection,sql,args);
+        } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            JdbcUtils.close(connection);
         }
-        return connection;
+
+        return -1; // 表示执行失败，返回其它的则是执行成功
     }
 
+    // 查询返回一条javabean的sql语句
+    // 下面这个是泛型Class<T> type;;; type：返回的对象类型；sql：执行的sql语句；args：SQL对应的参数值；<T>返回的类型的泛型
+    public <T> T queryForOne( Class<T> type, String sql, Object ... args){
+        Connection conn = JdbcUtils.getConnection();
 
-    // 编写查询公共类 查询的结果集resultSet
-    public static ResultSet execute(Connection concection, String sql, Object[] params, ResultSet resultSet, PreparedStatement preparedStatement) throws SQLException {
-        // 预编译的sql，在后面可以直接执行
-        preparedStatement = getConnection().prepareStatement(sql);
-
-        for (int i = 0; i < params.length ; i++){
-            //setObject，占位符从1开始，
-            preparedStatement.setObject(i+1,params[i]);
+        try {
+            return queryRunner.query(conn, sql, new BeanHandler<T>(type) , args);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            JdbcUtils.close(conn);
         }
 
-        resultSet = preparedStatement.executeQuery(sql);
-        return resultSet;
+        return null;
     }
 
+    // 查询返回多个javaBean的sql语句
+    public <T>List<T> queryForList(Class<T> type, String sql, Object ... args){
+        Connection conn = JdbcUtils.getConnection();
 
-    // 增、删、改 公共方法
-    public static int execute(Connection connection, String sql, Object[] params, PreparedStatement preparedStatement) throws Exception{
-        preparedStatement = getConnection().prepareStatement(sql);
-
-        for (int i = 0 ; i < params.length ; i++){
-            preparedStatement.setObject(i+1,params[i]);
+        try {
+            // 注意：下方不是BeanHandler了，要改成BeanListHandler
+            return queryRunner.query(conn, sql, new BeanListHandler<T>(type) , args);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            JdbcUtils.close(conn);
         }
 
-        int updateRows = preparedStatement.executeUpdate();
-        return updateRows;
+        return null;
     }
 
+    // 查询单个数据
+    public Object queryForSingleValue(String sql, Object ... args){
+        Connection conn = JdbcUtils.getConnection();
 
-    // 释放资源
-    public static boolean closeResource(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet){
-        boolean flag = true;
-
-        if (resultSet != null){
-            try {
-                resultSet.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                flag = false;
-            }
+        try {
+            return queryRunner.query(conn,sql,new ScalarHandler(),args);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.close(conn);
         }
-        if (preparedStatement != null){
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                flag = false;
-            }
-        }
-        if (connection != null){
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                flag = false;
-            }
-        }
-
-        return flag;
+        return null;
     }
-
 }
+
+
+
+
+

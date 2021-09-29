@@ -3,42 +3,26 @@ package com.xingwenke.www.dao.student;
 import com.xingwenke.www.dao.BaseDao;
 import com.xingwenke.www.po.Student;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
-public class StudentDaoImpl implements StudentDao{
+public class StudentDaoImpl extends BaseDao implements StudentDao{
 
-    // 得到学生登录的实现类
+
     @Override
-    public Student getLoginStudent(Connection connection, Integer studentId) {
+    public Student queryStudentByName(String studentName) {
+        String sql = "select `student_id`, `student_name`, `student_pwd`, `major_id`, `grade_id`, `class_id` from `student` where `student_name` = ?";
+        return queryForOne(Student.class, sql, studentName);
+    }
 
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
-        Student student = null;
+    @Override
+    public Student queryStudentByIdAndPwd(Integer studentId, String studentPassword) {
+        String sql = "select `student_id`, `student_name`, `student_pwd`, `major_id`, `grade_id`, `class_id` from `student` where `student_id` = ? and `student_pwd`=?";
+        return queryForOne(Student.class, sql,studentId, studentPassword);
+    }
 
-        if (connection != null) {
-            String sql = "select * from student where `student_id` = ?";
-            Object[] params = {studentId};
-
-            try {
-                rs = BaseDao.execute(connection, sql, params,rs, pstm);
-
-                if (rs.next()){
-                    student = new Student();
-                    student.setStudentId(rs.getInt("student_id"));
-                    student.setStudentName(rs.getString("student_name"));
-                    student.setStudentPwd(rs.getString("student_pwd"));
-                    student.setClassId(rs.getInt("class_id"));
-                    student.setGradeId(rs.getInt("grade_id"));
-                    student.setMajorId(rs.getInt("major_id"));
-                }
-                BaseDao.closeResource(null,pstm,rs);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        }
-        return student;
+    @Override
+    public int saveStudent(Student student) {
+        String sql = "insert into student(`student_id`, `student_name`, `student_pwd`, `major_id`, `grade_id`, `class_id`)values(?,?,?,?,?,?)";
+        return update(sql, student.getStudent_id(), student.getStudent_name(), student.getStudent_pwd(), student.getMajor_id(), student.getGrade_id(), student.getClass_id());
     }
 }
+
